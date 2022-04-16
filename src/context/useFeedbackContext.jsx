@@ -5,7 +5,15 @@ import FeedbackReducer from './useReducers';
 const FeedbackContext = createContext();
 
 function FeedbackProvider(props) {
+    //Reducer for Feedbacks
     const [feedbacks, dispatch] = useReducer(FeedbackReducer, []);
+    //Global State for spinner
+    const [loading, setLoading] = useState(true);
+     //Global State for editing feedback. 
+     const [feedbackEdited, setFeedback] = useState({
+        item: {},
+        isEditing: false
+    })
 
 
     //Call API to fetch exisitng Feedbacks
@@ -18,16 +26,11 @@ function FeedbackProvider(props) {
        const response = await fetch("/feedback?_sort=id&_order=desc");
        const data = await response.json();
        dispatch({type: 'LOAD_EXISTING_FEEDBACK', item: data});
+       setLoading(false);
     }
     
 
-    //Global State for editing feedback. To store new edited feedback
-    const [feedbackEdited, setFeedback] = useState({
-        item: {},
-        isEditing: false
-    })
-
-    //change global state for editing feedback
+    //change state for editing feedback
     const editingFeedback = (item)=>{
         setFeedback({
             item,
@@ -36,7 +39,12 @@ function FeedbackProvider(props) {
     }
 
   return (
-    <FeedbackContext.Provider value={{feedbacks, dispatch, editingFeedback, feedbackEdited}}>
+    <FeedbackContext.Provider value={{feedbacks, 
+                                      dispatch, 
+                                      editingFeedback, 
+                                      feedbackEdited,
+                                      loading,
+                                      setLoading}}>
         {props.children}
     </FeedbackContext.Provider>
   )
