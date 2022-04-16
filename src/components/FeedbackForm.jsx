@@ -8,7 +8,7 @@ function FeedbackForm() {
     const [btnDisabled, setBtnDisabled] = useState(true);
     const [message, setMessage] = useState('');
     const [rating, setRating] = useState(10);
-    const { dispatch, feedbackEdited } = useContext(FeedbackContext);
+    const { addFeedback, feedbackEdited } = useContext(FeedbackContext);
 
    useEffect(()=>{
        if(feedbackEdited.isEditing === true) {
@@ -44,15 +44,16 @@ function FeedbackForm() {
         e.preventDefault();
         if(text.trim().length > 10 && rating > 0) {
             if(feedbackEdited.isEditing) {
-                dispatch({type:"EDIT_FEEDBACK", 
-                            id: feedbackEdited.item.id, 
-                          text: text, 
-                        rating: rating
-                        });
-            feedbackEdited.isEditing = false;
+
+            //     dispatch({type:"EDIT_FEEDBACK", 
+            //                 id: feedbackEdited.item.id, 
+            //               text: text, 
+            //             rating: rating
+            //             });
+            // feedbackEdited.isEditing = false;
             finishedInput();
             } else {
-                dispatch({type:"ADD_FEEDBACK", rating: rating, text: text});
+                addFeedback({rating: rating, text: text });
                 finishedInput();
             }
         } else {

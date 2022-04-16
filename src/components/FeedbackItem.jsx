@@ -5,12 +5,12 @@ import { FeedbackContext } from "../context/useFeedbackContext";
 
 function FeedbackItem(props) {
    
-    const { dispatch, editingFeedback } = useContext(FeedbackContext);
+    const { deleteFeedback, editingFeedback } = useContext(FeedbackContext);
 
     //Delete a feedback from the list
     const handleDelete = ()=>{
         if(window.confirm("Are you sure you want to delete?")) {
-            dispatch({ type: "DELETE_FEEDBACK", id: props.id })
+            deleteFeedback(props.id);
         }
     }
   return (
