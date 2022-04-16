@@ -2,6 +2,8 @@ import { v4 as uuidv4 } from 'uuid';
 
 function FeedbackReducer(state, action) {
  switch(action.type) {
+     case "LOAD_EXISTING_FEEDBACK":
+         return action.item;
      case "ADD_FEEDBACK":
          return [{id: uuidv4(), rating: action.rating, text: action.text}, ...state];
      case "EDIT_FEEDBACK":
