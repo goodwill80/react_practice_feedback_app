@@ -1,13 +1,9 @@
 import { createContext, useState, useEffect } from 'react';
-// import FeedbackReducer from './useReducers';
-// import { initialFeedback } from './FeedbackData';
+
 
 const FeedbackContext = createContext();
 
 function FeedbackProvider(props) {
-    // Reducer for Feedbacks
-    // const [feedbacks, dispatch] = useReducer(FeedbackReducer, []);
-
     //Global state for feedbacks
     const [feedbacks, setFeedbacks] = useState([]);
     //Global State for spinner
@@ -48,6 +44,7 @@ function FeedbackProvider(props) {
     //Delete an existing Feedback from API
     const deleteFeedback = async(id)=>{
         await fetch(`/feedback/${id}`, {method: 'DELETE'});
+        setFeedbacks(feedbacks.filter(feedback=> feedback.id !== id));
     }
 
     //Update an existing Feedback from API
