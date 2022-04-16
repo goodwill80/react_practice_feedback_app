@@ -23,7 +23,7 @@ function FeedbackProvider(props) {
         fetchFeedback();
     }, []);
 
-    //Retrieve exisitng feedbacks
+    //Retrieve exisitng feedbacks from API
     const fetchFeedback =  async ()=>{
        const response = await fetch("/feedback?_sort=id&_order=desc");
        const data = await response.json();
@@ -31,7 +31,7 @@ function FeedbackProvider(props) {
        setLoading(false);
     }
 
-    //Post new feedback into API
+    //Add new feedback into API
     const addFeedback = async (newFeedback)=>{
         const response = await fetch('/feedback', {
             method: 'POST',
@@ -45,10 +45,25 @@ function FeedbackProvider(props) {
         setFeedbacks([...feedbacks, data]);
     }
 
-    //delete an existing Feedback 
+    //Delete an existing Feedback from API
     const deleteFeedback = async(id)=>{
         await fetch(`/feedback/${id}`, {method: 'DELETE'});
     }
+
+    //Update an existing Feedback from API
+    const editFeedback = async(id, updatedItem)=>{
+        const response = await fetch(`/feedback/${id}`, {
+            method: "PUT",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(updatedItem)
+        })
+        const data = await response.json();
+        setFeedbacks(
+            feedbacks.map(feedback=> feedback.id === id ? 
+                {...feedback, ...data} : feedback))
+        }
 
     //change state for editing feedback
     const editingFeedback = (item)=>{
@@ -64,6 +79,7 @@ function FeedbackProvider(props) {
                                       feedbackEdited,
                                       addFeedback,
                                       deleteFeedback,
+                                      editFeedback,
                                       loading,
                                       setLoading}}>
         {props.children}
