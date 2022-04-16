@@ -1,6 +1,6 @@
 import { createContext, useReducer, useState } from 'react';
 import FeedbackReducer from './useReducers';
-import { initialFeedback } from './FeedbackData';
+// import { initialFeedback } from './FeedbackData';
 
 const FeedbackContext = createContext();
 
